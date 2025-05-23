@@ -77,3 +77,17 @@ cargo tauri dev
 
 La UI se inspira en apps como Notion o Linear: tipografía limpia, colores
 neutros con toques de acento, espaciado generoso y soporte de modo oscuro.
+
+## Frontend web con React y Vite
+
+Se incluye una interfaz web desarrollada con **React** y **Vite** en la carpeta `ui/react-vite`. Esta interfaz utiliza el mismo estilo sobrio que la versión Tauri (inspirado en Notion/Linear/Raycast) y consume la API REST proporcionada por `wifi_fix.server`.
+
+Para probarla es necesario instalar las dependencias de Node y luego ejecutar Vite:
+
+```bash
+cd ui/react-vite
+npm install
+npm run dev
+```
+
+Por defecto la aplicación se sirve en `http://localhost:5173` y espera que la API de FastAPI esté disponible en `http://localhost:8000`.
