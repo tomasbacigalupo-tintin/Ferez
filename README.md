@@ -52,6 +52,17 @@ También puedes utilizar `make_executable.py` para simplificar la generación de
 python make_executable.py
 ```
 
+## Descargas
+
+Los binarios listos para usar se publican en la sección **Releases** del
+repositorio en GitHub. Cada vez que se crea una nueva versión, un flujo de
+trabajo de GitHub Actions compila automáticamente el ejecutable con
+PyInstaller para Windows, macOS y Linux y adjunta los archivos resultantes al
+release correspondiente.
+
+Allí podrás descargar el ejecutable para tu sistema sin necesidad de instalar
+Python ni dependencias adicionales.
+
 ## Actualizaciones automáticas
 
 La carpeta `updater/` contiene funciones para comprobar si existen nuevas
