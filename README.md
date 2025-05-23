@@ -34,6 +34,7 @@ uvicorn wifi_fix.server:app --reload
 ```
 
 Cada acción genera un reporte en `wifi_fix_report.txt` dentro de tu directorio personal.
+Además se genera un archivo `wifi_fix_report.jsonl` con el mismo contenido en formato JSON.
 
 ## Distribución sin dependencias
 
@@ -50,6 +51,13 @@ También puedes utilizar `make_executable.py` para simplificar la generación de
 ```bash
 python make_executable.py
 ```
+
+## Actualizaciones automáticas
+
+La carpeta `updater/` contiene funciones para comprobar si existen nuevas
+versiones de la aplicación y aplicar paquetes de actualización descargados en
+formato ZIP. Estas rutinas están pensadas para integrarse en futuras versiones
+del programa.
 
 
 ## Frontend multiplataforma con Tauri

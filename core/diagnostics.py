@@ -87,3 +87,12 @@ def scan_open_ports(host: str, ports: List[int]) -> List[int]:
             except Exception:
                 pass
     return open_ports
+
+
+def resolve_hostname(hostname: str) -> bool:
+    """Return True if the hostname can be resolved via DNS."""
+    try:
+        socket.gethostbyname(hostname)
+        return True
+    except socket.gaierror:
+        return False
