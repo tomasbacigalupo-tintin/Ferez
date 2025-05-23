@@ -36,3 +36,15 @@ pyinstaller --onefile wifi_fix_tool.py
 
 El archivo resultante en la carpeta `dist` funcionará con doble clic en Windows, macOS o Linux, dependiendo del sistema donde se genere.
 Los usuarios finales solo necesitan descargar este archivo y ejecutarlo; no es necesario instalar Python, Git ni otras dependencias.
+
+## Empaquetado automático
+
+Se incluye un script `make_executable.py` para facilitar la generación del ejecutable.
+Asegúrate de tener instalada la herramienta **PyInstaller** y ejecuta:
+
+```bash
+python make_executable.py
+```
+
+El binario resultante quedará en la carpeta `dist` y podrá ejecutarse con doble clic
+sin necesidad de instalar Python ni otras dependencias.
