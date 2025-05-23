@@ -50,3 +50,30 @@ También puedes utilizar `make_executable.py` para simplificar la generación de
 ```bash
 python make_executable.py
 ```
+
+
+## Frontend multiplataforma con Tauri
+
+Se incluye un ejemplo mínimo de interfaz creada con **Tauri** en la carpeta `ui/tauri`.
+Esta UI consume la API REST de `wifi_fix.server` y permite ejecutar las acciones
+principales desde una ventana nativa.
+
+Tauri permite usar tecnologías web modernas y genera binarios ligeros y seguros.
+Si se requiere un ecosistema de librerías web más amplio se podría usar
+**Electron**, aunque el tamaño final sería mayor.
+
+Para probar la interfaz Tauri primero inicia el servidor FastAPI:
+
+```bash
+uvicorn wifi_fix.server:app --reload
+```
+
+Luego, dentro de `ui/tauri/src-tauri`, compila y ejecuta la aplicación
+(requiere Rust y las herramientas de Tauri instaladas):
+
+```bash
+cargo tauri dev
+```
+
+La UI se inspira en apps como Notion o Linear: tipografía limpia, colores
+neutros con toques de acento, espaciado generoso y soporte de modo oscuro.
