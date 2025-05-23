@@ -21,5 +21,6 @@ Se abrirá una ventana con botones para:
 - Limpiar la caché DNS.
 - Cambiar a DNS públicos (Google).
 - Ejecutar todas las acciones automáticamente con **Arreglar todo**.
+- Abrir el archivo de reporte generado.
 
 Cada acción genera un reporte en un archivo `wifi_fix_report.txt` ubicado en el directorio personal del usuario.

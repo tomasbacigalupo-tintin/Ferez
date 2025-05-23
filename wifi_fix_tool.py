@@ -7,12 +7,17 @@ from tkinter import messagebox
 
 
 class WiFiFixer:
+    """Aplicación para diagnosticar y corregir problemas de conectividad WiFi."""
+
     def __init__(self, root):
         self.root = root
         root.title("WiFi Fixer")
-        root.geometry("400x350")
+        root.geometry("400x380")
         self.status_var = tk.StringVar()
         self.status_var.set("Estado de conexión: desconocido")
+
+        home = os.path.expanduser("~")
+        self.report_path = os.path.join(home, "wifi_fix_report.txt")
 
         tk.Label(root, textvariable=self.status_var, font=("Arial", 12)).pack(pady=10)
         tk.Button(root, text="Verificar conexión", command=self.check_connection).pack(pady=5)
@@ -21,6 +26,7 @@ class WiFiFixer:
         tk.Button(root, text="Limpiar DNS", command=self.flush_dns).pack(pady=5)
         tk.Button(root, text="Cambiar DNS", command=self.change_dns).pack(pady=5)
         tk.Button(root, text="Arreglar todo", command=self.fix_all, bg="lightgreen").pack(pady=10)
+        tk.Button(root, text="Abrir reporte", command=self.open_report).pack(pady=5)
 
         self.report = []
 
@@ -34,19 +40,39 @@ class WiFiFixer:
             output = str(e)
         return success, output
 
+    def run_commands(self, commands):
+        """Ejecuta una lista de comandos y devuelve el estado acumulado."""
+        success = True
+        output_total = ""
+        for cmd in commands:
+            ok, out = self.run_command(cmd)
+            success = success and ok
+            output_total += out
+        return success, output_total
+
     def log(self, action, success, output):
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         entry = f"{now} - {action}: {'OK' if success else 'ERROR'}\n{output}\n"
         self.report.append(entry)
 
     def write_report(self):
-        home = os.path.expanduser("~")
-        path = os.path.join(home, "wifi_fix_report.txt")
-        with open(path, "a", encoding='utf-8') as f:
+        with open(self.report_path, "a", encoding='utf-8') as f:
             for line in self.report:
                 f.write(line)
             f.write("\n")
         self.report = []
+
+    def open_report(self):
+        """Abre el archivo de reporte con el visor de texto por defecto."""
+        if os.path.exists(self.report_path):
+            if platform.system() == "Windows":
+                os.startfile(self.report_path)
+            elif platform.system() == "Darwin":
+                subprocess.Popen(["open", self.report_path])
+            else:
+                subprocess.Popen(["xdg-open", self.report_path])
+        else:
+            messagebox.showinfo("Abrir reporte", "El archivo de reporte aún no existe")
 
     def check_connection(self):
         os_name = platform.system()
@@ -90,12 +116,7 @@ class WiFiFixer:
         else:
             iface = self.get_linux_interface()
             commands = [["sudo", "ip", "link", "set", iface, "down"], ["sudo", "ip", "link", "set", iface, "up"]]
-        success = True
-        output_total = ""
-        for cmd in commands:
-            ok, out = self.run_command(cmd)
-            success = success and ok
-            output_total += out
+        success, output_total = self.run_commands(commands)
         messagebox.showinfo("Reiniciar adaptador", "Completado" if success else "Hubo errores")
         self.log("Reiniciar adaptador", success, output_total)
         self.write_report()
@@ -109,12 +130,7 @@ class WiFiFixer:
             commands = [["sudo", "ipconfig", "set", iface, "DHCP"]]
         else:
             commands = [["sudo", "dhclient", "-r"], ["sudo", "dhclient"]]
-        success = True
-        output_total = ""
-        for cmd in commands:
-            ok, out = self.run_command(cmd)
-            success = success and ok
-            output_total += out
+        success, output_total = self.run_commands(commands)
         messagebox.showinfo("Renovar IP", "Completado" if success else "Hubo errores")
         self.log("Renovar IP", success, output_total)
         self.write_report()
@@ -127,12 +143,7 @@ class WiFiFixer:
             commands = [["sudo", "dscacheutil", "-flushcache"], ["sudo", "killall", "-HUP", "mDNSResponder"]]
         else:
             commands = [["sudo", "systemd-resolve", "--flush-caches"]]
-        success = True
-        output_total = ""
-        for cmd in commands:
-            ok, out = self.run_command(cmd)
-            success = success and ok
-            output_total += out
+        success, output_total = self.run_commands(commands)
         messagebox.showinfo("Limpiar DNS", "Completado" if success else "Hubo errores")
         self.log("Limpiar DNS", success, output_total)
         self.write_report()
@@ -149,12 +160,7 @@ class WiFiFixer:
             iface = self.get_linux_interface()
             commands = [["sudo", "nmcli", "device", "modify", iface, "ipv4.dns", "8.8.8.8 8.8.4.4"],
                         ["sudo", "systemctl", "restart", "NetworkManager"]]
-        success = True
-        output_total = ""
-        for cmd in commands:
-            ok, out = self.run_command(cmd)
-            success = success and ok
-            output_total += out
+        success, output_total = self.run_commands(commands)
         messagebox.showinfo("Cambiar DNS", "Completado" if success else "Hubo errores")
         self.log("Cambiar DNS", success, output_total)
         self.write_report()
@@ -165,7 +171,7 @@ class WiFiFixer:
         self.flush_dns()
         self.change_dns()
         self.check_connection()
-        messagebox.showinfo("Arreglar todo", "Proceso completado")
+        messagebox.showinfo("Arreglar todo", f"Proceso completado. Revisar reporte en {self.report_path}")
 
 
 def main():
