@@ -99,3 +99,8 @@ npm run dev
 ```
 
 Por defecto la aplicación se sirve en `http://localhost:5173` y espera que la API de FastAPI esté disponible en `http://localhost:8000`.
+
+## Diseño de flujos de usuario
+
+La carpeta `docs/UX_JOURNEY.md` contiene un esquema detallado de la experiencia de usuario propuesta para la herramienta. Allí se describen los pasos desde la apertura de la aplicación hasta el acceso al historial de reportes.
+
