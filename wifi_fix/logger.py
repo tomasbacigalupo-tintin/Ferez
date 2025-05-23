@@ -1,7 +1,8 @@
 import os
 from pathlib import Path
 
-from logging.logger import Logger as BaseLogger
+# Import the helper logger without shadowing the standard ``logging`` module.
+from wf_logging.logger import Logger as BaseLogger
 
 
 class Logger:
