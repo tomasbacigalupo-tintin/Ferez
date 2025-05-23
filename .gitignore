@@ -1,0 +1,12 @@
+# Node
+node_modules/
+dist/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Misc
+*.log
+.vscode/
+.env
