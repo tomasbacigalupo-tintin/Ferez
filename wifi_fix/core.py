@@ -67,6 +67,12 @@ class WiFiFixCore:
         self.logger.flush()
         return success
 
+    def reload_driver(self):
+        success, output = system.reload_driver()
+        self.logger.log("Reinstalar driver", success, output)
+        self.logger.flush()
+        return success
+
     def check_connection(self):
         os_name = platform.system()
         cmd = ["ping", "-c", "1", "8.8.8.8"] if os_name != "Windows" else ["ping", "-n", "1", "8.8.8.8"]
@@ -187,6 +193,7 @@ class WiFiFixCore:
 
     def fix_all(self):
         self.restart_adapter()
+        self.reload_driver()
         self.renew_ip()
         self.flush_dns()
         self.change_dns()

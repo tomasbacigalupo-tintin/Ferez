@@ -19,6 +19,12 @@ async def fix_all():
     return {"success": success}
 
 
+@app.post("/reload_driver", response_model=FixResponse)
+async def reload_driver():
+    success = core.reload_driver()
+    return {"success": success}
+
+
 class DiagnoseResponse(BaseModel):
     connection: bool
     gateway: bool

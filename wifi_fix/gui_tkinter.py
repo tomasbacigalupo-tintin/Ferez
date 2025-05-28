@@ -22,6 +22,7 @@ class WiFiFixerApp:
         tk.Button(root, text="Renovar IP", command=self.renew_ip).pack(pady=5)
         tk.Button(root, text="Limpiar DNS", command=self.flush_dns).pack(pady=5)
         tk.Button(root, text="Cambiar DNS", command=self.change_dns).pack(pady=5)
+        tk.Button(root, text="Reinstalar driver", command=self.reload_driver).pack(pady=5)
         tk.Button(root, text="Diagnóstico avanzado", command=self.diagnose_network).pack(pady=5)
         tk.Button(root, text="Arreglar todo", command=self.fix_all, bg="lightgreen").pack(pady=10)
         tk.Button(root, text="Abrir reporte", command=self.open_report).pack(pady=5)
@@ -61,6 +62,10 @@ class WiFiFixerApp:
     def change_dns(self):
         success = self.core.change_dns()
         messagebox.showinfo("Cambiar DNS", "Completado" if success else "Hubo errores")
+
+    def reload_driver(self):
+        success = self.core.reload_driver()
+        messagebox.showinfo("Reinstalar driver", "Completado" if success else "Hubo errores")
 
     def diagnose_network(self):
         self.core.diagnose_network()
