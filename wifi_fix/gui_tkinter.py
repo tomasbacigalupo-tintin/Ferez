@@ -13,19 +13,29 @@ class WiFiFixerApp:
         self.root = root
         root.title("WiFi Fixer")
         root.geometry("420x480")
+        root.configure(bg="#0a0a0a")
+
         self.status_var = tk.StringVar()
         self.status_var.set("Estado de conexión: desconocido")
 
-        tk.Label(root, textvariable=self.status_var, font=("Arial", 12)).pack(pady=10)
-        tk.Button(root, text="Verificar conexión", command=self.check_connection).pack(pady=5)
-        tk.Button(root, text="Reiniciar adaptador", command=self.restart_adapter).pack(pady=5)
-        tk.Button(root, text="Renovar IP", command=self.renew_ip).pack(pady=5)
-        tk.Button(root, text="Limpiar DNS", command=self.flush_dns).pack(pady=5)
-        tk.Button(root, text="Cambiar DNS", command=self.change_dns).pack(pady=5)
-        tk.Button(root, text="Reinstalar driver", command=self.reload_driver).pack(pady=5)
-        tk.Button(root, text="Diagnóstico avanzado", command=self.diagnose_network).pack(pady=5)
-        tk.Button(root, text="Arreglar todo", command=self.fix_all, bg="lightgreen").pack(pady=10)
-        tk.Button(root, text="Abrir reporte", command=self.open_report).pack(pady=5)
+        label_opts = {"bg": "#0a0a0a", "fg": "#f5f5f5", "font": ("Segoe UI", 12)}
+        btn_opts = {
+            "bg": "#e50914",
+            "fg": "white",
+            "activebackground": "#ff3030",
+            "relief": tk.FLAT,
+        }
+
+        tk.Label(root, textvariable=self.status_var, **label_opts).pack(pady=10)
+        tk.Button(root, text="Verificar conexión", command=self.check_connection, **btn_opts).pack(pady=5)
+        tk.Button(root, text="Reiniciar adaptador", command=self.restart_adapter, **btn_opts).pack(pady=5)
+        tk.Button(root, text="Renovar IP", command=self.renew_ip, **btn_opts).pack(pady=5)
+        tk.Button(root, text="Limpiar DNS", command=self.flush_dns, **btn_opts).pack(pady=5)
+        tk.Button(root, text="Cambiar DNS", command=self.change_dns, **btn_opts).pack(pady=5)
+        tk.Button(root, text="Reinstalar driver", command=self.reload_driver, **btn_opts).pack(pady=5)
+        tk.Button(root, text="Diagnóstico avanzado", command=self.diagnose_network, **btn_opts).pack(pady=5)
+        tk.Button(root, text="Arreglar todo", command=self.fix_all, **btn_opts).pack(pady=10)
+        tk.Button(root, text="Abrir reporte", command=self.open_report, **btn_opts).pack(pady=5)
 
     def open_report(self):
         path = self.core.logger.report_path
