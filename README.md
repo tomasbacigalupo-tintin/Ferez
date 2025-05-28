@@ -1,6 +1,6 @@
 # WiFi Fixer Tool
 
-Esta aplicación de escritorio diagnostica y soluciona problemas de conectividad WiFi y de red en Windows, macOS y Linux. Incluye comprobaciones de gateway, detección de conflictos de IP, verificación de DHCP y test de puertos.
+Esta aplicación de escritorio diagnostica y soluciona problemas de conectividad WiFi y de red en Windows, macOS y Linux. Incluye comprobaciones de gateway, detección de conflictos de IP, verificación de DHCP y test de puertos. Ahora también intenta reinstalar el driver del adaptador cuando es necesario.
 
 ## Estructura del proyecto
 
@@ -11,6 +11,7 @@ El código se organiza como un paquete Python llamado `wifi_fix` que contiene:
 - **logger.py**: generación de reportes en `wifi_fix_report.txt`.
 - **gui_tkinter.py**: interfaz gráfica simple para escritorio.
 - **server.py**: servicio opcional FastAPI para exponer la lógica a otras interfaces (por ejemplo Tauri/Electron).
+- **reload_driver**: función añadida para reinstalar el driver del adaptador WiFi en caso de fallos.
 
 El script `wifi_fix_tool.py` ejecuta la interfaz Tkinter por defecto.
 

@@ -1,3 +1,4 @@
+import os
 import platform
 import subprocess
 
@@ -56,3 +57,28 @@ def get_interface():
     if os_name == "Darwin":
         return get_macos_interface()
     return get_linux_interface()
+
+
+def get_linux_driver(interface: str) -> str:
+    """Return the kernel module used by the interface if possible."""
+    try:
+        path = os.path.join("/sys/class/net", interface, "device", "driver")
+        link = os.readlink(path)
+        return os.path.basename(link)
+    except OSError:
+        return ""
+
+
+def reload_driver():
+    """Attempt to reload the WiFi driver for the active interface."""
+    os_name = platform.system()
+    iface = get_interface()
+    if os_name == "Windows":
+        commands = [["pnputil", "/scan-devices"]]
+    elif os_name == "Darwin":
+        commands = [["sudo", "kextunload", "-b", "com.apple.driver.Apple80211"],
+                    ["sudo", "kextload", "-b", "com.apple.driver.Apple80211"]]
+    else:
+        driver = get_linux_driver(iface) or "iwlwifi"
+        commands = [["sudo", "modprobe", "-r", driver], ["sudo", "modprobe", driver]]
+    return run_commands(commands)
